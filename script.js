@@ -95,7 +95,28 @@ const loadAllProducts = async (category, btn = null) => {
 
 
 
-
+const renderCards = (data, container) => {
+    data.forEach(product => {
+        const card = document.createElement('div');
+        card.className = "card bg-white shadow-sm border border-gray-100 hover:shadow-md transition-all";
+        card.innerHTML = `
+            <figure class="p-6 h-56 bg-white"><img src="${product.image}" class="h-full object-contain"/></figure>
+            <div class="card-body p-5">
+                <div class="flex justify-between items-center mb-1">
+                    <span class="text-[10px] bg-blue-100 text-blue-600 px-2 py-1 rounded font-bold uppercase">${product.category}</span>
+                    <span class="text-xs font-bold text-orange-400">⭐ ${product.rating.rate} (${product.rating.count})</span>
+                </div>
+                <h2 class="text-sm font-bold h-10 overflow-hidden leading-tight">${product.title}</h2>
+                <p class="text-lg font-extrabold mt-1">$${product.price}</p>
+                <div class="grid grid-cols-2 gap-2 mt-4">
+                    <button onclick="showDetails(${product.id})" class="btn btn-xs btn-outline rounded">Details</button>
+                    <button onclick="updateCart()" class="btn btn-xs btn-primary rounded">Add</button>
+                </div>
+            </div>
+        `;
+        container.appendChild(card);
+    });
+};
 
 
 
