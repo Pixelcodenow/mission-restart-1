@@ -119,6 +119,29 @@ const renderCards = (data, container) => {
 };
 
 
+const showDetails = async (id) => {
+    const modal = document.getElementById('product_modal');
+    const content = document.getElementById('modal-content');
+    modal.showModal();
+    content.innerHTML = `<div class="p-10 text-center"><span class="loading loading-spinner text-primary"></span></div>`;
+
+    const res = await fetch(`https://fakestoreapi.com/products/${id}`);
+    const data = await res.json();
+    content.innerHTML = `
+        <div class="flex flex-col md:flex-row p-6 gap-6">
+            <img src="${data.image}" class="w-full md:w-1/2 h-64 object-contain rounded-xl bg-white p-4" />
+            <div class="flex flex-col justify-center">
+                <h3 class="font-bold text-xl">${data.title}</h3>
+                <p class="py-4 text-sm text-gray-500">${data.description}</p>
+                <p class="text-2xl font-bold text-primary mb-6">$${data.price}</p>
+                <div class="modal-action mt-auto flex gap-2">
+                   <button class="btn btn-primary flex-1">Buy Now</button>
+                   <form method="dialog"><button class="btn">Close</button></form>
+                </div>
+            </div>
+        </div>
+    `;
+};
 
 
 let count = 0;
