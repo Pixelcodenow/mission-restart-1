@@ -65,8 +65,33 @@ const loadCategories = async () => {
 
 
 
+const loadAllProducts = async (category, btn = null) => {
+    const grid = document.getElementById('product-grid');
+    grid.innerHTML = `<div class="col-span-full text-center py-20"><span class="loading loading-spinner loading-lg text-primary"></span></div>`;
 
 
+    if(btn) {
+        document.querySelectorAll('#category-container button').forEach(b => {
+            b.classList.remove('btn-primary');
+            b.classList.add('btn-ghost', 'border-gray-300');
+        });
+        btn.classList.add('btn-primary');
+        btn.classList.remove('btn-ghost', 'border-gray-300');
+    }
+
+    try {
+        const url = category === 'all' 
+            ? 'https://fakestoreapi.com/products' 
+            : `https://fakestoreapi.com/products/category/${encodeURIComponent(category)}`;
+            
+        const res = await fetch(url);
+        const data = await res.json();
+        grid.innerHTML = '';
+        renderCards(data, grid);
+    } catch (error) {
+        grid.innerHTML = `<p class="col-span-full text-center text-error">Something went wrong!</p>`;
+    }
+};
 
 
 
